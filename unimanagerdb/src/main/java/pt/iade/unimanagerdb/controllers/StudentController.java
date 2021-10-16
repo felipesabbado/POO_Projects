@@ -1,6 +1,6 @@
 package pt.iade.unimanagerdb.controllers;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +22,36 @@ import pt.iade.unimanagerdb.models.repositories.StudentRepository;
 @RequestMapping(path = "/api/students")
 public class StudentController {
     private Logger logger = LoggerFactory.getLogger(StudentController.class);
-
     @Autowired
     private StudentRepository studentRepository;
+
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Student> getStudents(){
         logger.info("Getting all students");
         return studentRepository.findAll();
     }
 
+    @GetMapping(path = "/{id:[0-9]+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Student getStudent(@PathVariable int id) {
+        logger.info("Getting student with id " + id);
+        Optional<Student> _student = studentRepository.findById(id);
+        if (_student.isEmpty())
+            throw new NotFoundException("" + id, "Student", "id");
+        else return _student.get();
+    }
+
+    @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Student saveStudent(@RequestBody Student student) {
+        Student savedStudent = studentRepository.save(student);
+        logger.info("Saving student with id " + savedStudent.getId());
+        return savedStudent;
+    }
+
+    @DeleteMapping(path = "/{id:[0-9]+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response deleteStudent(@PathVariable int id) {
+        logger.info("Deleting student with id " + id);
+        // No verification to see if it exists
+        studentRepository.deleteById(id);
+        return new Response("Delete student with id " + id, null);
+    }
 }
