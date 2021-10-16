@@ -50,8 +50,15 @@ public class UnitController {
     @DeleteMapping(path = "/{id:[0-9]+}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response deleteUnit(@PathVariable int id) {
         logger.info("Deleting unit with id " + id);
+        Optional<Unit> _unit = unitRepository.findById(id);
+        if (_unit.isEmpty()){
+            throw new NotFoundException("" + id, "Unit", "id");
+        } else {
+            unitRepository.deleteById(id);
+            return new Response("Delete unit with id " + id, null);
+        }
         // No verification to see if it exists
-        unitRepository.deleteById(id);
-        return new Response("Delete unit with id " + id, null);
+        //unitRepository.deleteById(id);
+        //return new Response("Delete unit with id " + id, null);
     }
 }

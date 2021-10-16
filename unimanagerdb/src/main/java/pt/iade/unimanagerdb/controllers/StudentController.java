@@ -50,8 +50,15 @@ public class StudentController {
     @DeleteMapping(path = "/{id:[0-9]+}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response deleteStudent(@PathVariable int id) {
         logger.info("Deleting student with id " + id);
+        Optional<Student> _student = studentRepository.findById(id);
+        if (_student.isEmpty()){
+            throw new NotFoundException("" + id, "Student", "id");
+        } else {
+            studentRepository.deleteById(id);
+            return new Response("Delete student with id " + id, null);
+        }
         // No verification to see if it exists
-        studentRepository.deleteById(id);
-        return new Response("Delete student with id " + id, null);
+        //studentRepository.deleteById(id);
+        //return new Response("Delete student with id " + id, null);
     }
 }
