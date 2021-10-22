@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pt.iade.unimanagerdb.models.Student;
 import pt.iade.unimanagerdb.models.Unit;
 import pt.iade.unimanagerdb.models.exceptions.NotFoundException;
+import pt.iade.unimanagerdb.models.repositories.StudentRepository;
 import pt.iade.unimanagerdb.models.repositories.UnitRepository;
 
 @RestController
@@ -24,6 +26,7 @@ public class UnitController {
     private Logger logger = LoggerFactory.getLogger(UnitController.class);
     @Autowired
     private UnitRepository unitRepository;
+    private StudentRepository studentRepository;
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Unit> getUnits() {
@@ -60,5 +63,11 @@ public class UnitController {
         // No verification to see if it exists
         //unitRepository.deleteById(id);
         //return new Response("Delete unit with id " + id, null);
+    }
+
+    @RequestMapping(path = "/{id}/students", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Student> getUnitStudents(@PathVariable int id){
+        logger.info("Sending all students of the unit");
+        return studentRepository.findByUnitId(id);
     }
 }

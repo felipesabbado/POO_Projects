@@ -1,10 +1,12 @@
 package pt.iade.unimanagerdb.controllers;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,5 +62,13 @@ public class StudentController {
         // No verification to see if it exists
         //studentRepository.deleteById(id);
         //return new Response("Delete student with id " + id, null);
+    }
+
+    // Devíamos usar o @RequestParam
+    @GetMapping(path = "/date/{sdate}/{edate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Student> getStudentsByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate sdate,
+                                                @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate edate) {
+        logger.info("Sending all students with birth dates between: " + sdate + " and " + edate);
+        return studentRepository.findByBdateBetween(sdate, edate);
     }
 }

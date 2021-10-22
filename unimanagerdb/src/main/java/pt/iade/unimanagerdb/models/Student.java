@@ -1,5 +1,7 @@
 package pt.iade.unimanagerdb.models;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +17,8 @@ public class Student {
     @Column(name = "stu_id") private int id;
     @Column(name = "stu_name") private String name;
     @Column(name = "stu_place") private String place;
-    @Column(name = "stu_bdate") private String bdate;
-    @Column(name = "stu_gender") private String gender;
+    @Column(name = "stu_bdate") private LocalDate bdate;
+    @Column(name = "stu_gender") private char gender;
     @Column(name = "stu_email") private String email;
     @Column(name = "stu_cour_id") private int cour_id;
 
@@ -34,11 +36,11 @@ public class Student {
         return place;
     }
 
-    public String getBdate() {
+    public LocalDate getBdate() {
         return bdate;
     }
 
-    public String getGender() {
+    public char getGender() {
         return gender;
     }
 
