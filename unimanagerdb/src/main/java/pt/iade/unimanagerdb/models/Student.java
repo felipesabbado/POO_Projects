@@ -48,7 +48,7 @@ public class Student {
         return email;
     }
 
-    public int getCour_id() {
+    public int getCourseId() {
         return cour_id;
     }
 }

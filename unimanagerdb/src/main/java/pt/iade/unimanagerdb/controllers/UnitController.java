@@ -26,6 +26,7 @@ public class UnitController {
     private Logger logger = LoggerFactory.getLogger(UnitController.class);
     @Autowired
     private UnitRepository unitRepository;
+    // @Autowired
     private StudentRepository studentRepository;
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +69,6 @@ public class UnitController {
     @RequestMapping(path = "/{id}/students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Student> getUnitStudents(@PathVariable int id){
         logger.info("Sending all students of the unit");
-        return studentRepository.findByUnitId(id);
+        return studentRepository.findByCourseId(id);
     }
 }
