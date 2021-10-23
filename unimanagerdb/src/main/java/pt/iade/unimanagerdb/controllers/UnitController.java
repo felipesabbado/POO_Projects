@@ -26,7 +26,7 @@ public class UnitController {
     private Logger logger = LoggerFactory.getLogger(UnitController.class);
     @Autowired
     private UnitRepository unitRepository;
-    // @Autowired
+    @Autowired
     private StudentRepository studentRepository;
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,14 +61,12 @@ public class UnitController {
             unitRepository.deleteById(id);
             return new Response("Delete unit with id " + id, null);
         }
-        // No verification to see if it exists
-        //unitRepository.deleteById(id);
-        //return new Response("Delete unit with id " + id, null);
     }
 
-    @RequestMapping(path = "/{id}/students", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}/students", produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Student> getUnitStudents(@PathVariable int id){
-        logger.info("Sending all students of the unit");
+        Optional<Unit> unit = unitRepository.findById(id);
+        logger.info("Sending all students of the unit " + unit.get().getName());
         return studentRepository.findByCourseId(id);
     }
 }

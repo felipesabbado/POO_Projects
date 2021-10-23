@@ -20,7 +20,7 @@ public class Student {
     @Column(name = "stu_bdate") private LocalDate bdate;
     @Column(name = "stu_gender") private char gender;
     @Column(name = "stu_email") private String email;
-    @Column(name = "stu_cour_id") private int cour_id;
+    @Column(name = "stu_cour_id") private int courseId;
 
     public Student(){}
 
@@ -49,6 +49,6 @@ public class Student {
     }
 
     public int getCourseId() {
-        return cour_id;
+        return courseId;
     }
 }
